@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { auth } from "../firebaseConfig"
 import router from '../router/'
 import { useDatabaseStore } from './database'
@@ -14,11 +14,13 @@ export const useUserStore = defineStore('userStore', {
         async registerUser(email, password) {
             this.loadingUser = true
             try {
-                const { user } = await createUserWithEmailAndPassword(auth, email, password)
-                this.userData = { email: user.email, uid: user.uid }
-                router.push('/')
+                await createUserWithEmailAndPassword(auth, email, password)
+                // this.userData = { email: user.email, uid: user.uid }
+                await sendEmailVerification(auth.currentUser)
+                router.push('/login')
             } catch (error) {
-                console.log(error)
+                console.log(error.code)
+                return error.code
             } finally {
                 this.loadingUser = false
             }
@@ -31,7 +33,8 @@ export const useUserStore = defineStore('userStore', {
                 this.userData = { email: user.email, uid: user.uid }
                 router.push('/')
             } catch (error) {
-                console.log(error)
+                console.log(error.code)
+                return error.code
             } finally {
                 this.loadingUser = false
             }
