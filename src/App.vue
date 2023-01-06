@@ -5,6 +5,9 @@
         <a-menu-item v-if="userStore.userData" key="home">
           <router-link to="/">Home</router-link>
         </a-menu-item>
+        <a-menu-item v-if="userStore.userData" key="perfil">
+          <router-link to="/perfil">Perfil</router-link>
+        </a-menu-item>
         <a-menu-item v-if="!userStore.userData" key="login">
           <router-link to="/login">Login</router-link>
         </a-menu-item>
@@ -15,12 +18,6 @@
           Logout
         </a-menu-item>
       </a-menu>
-      <nav>
-
-
-
-
-      </nav>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
       <div class="container">
@@ -42,7 +39,6 @@ const userStore = useUserStore()
 const route = useRoute()
 const selectedKeys = ref([])
 
-// console.log(route.name)
 watch(
   () => route.name,
   () => {
@@ -50,14 +46,13 @@ watch(
 
   }
 );
-
 </script>
 
 <style>
 .container {
   background-color: #fff;
   padding: 24px;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh -64px);
 }
 
 .text-center {

@@ -41,7 +41,7 @@ const onFinish = async (value) => {
             <a-input v-model:value="formState.url"></a-input>
         </a-form-item>
         <a-form-item>
-            <a-button type="primary" html-type="submit" :disaled="databaseStore.loading"
+            <a-button type="primary" html-type="submit" :disabled="databaseStore.loading"
                 :loading="databaseStore.loading">Agregar URL</a-button>
         </a-form-item>
     </a-form>
