@@ -60,26 +60,18 @@ const handleChange = info => {
             message.error('Solo imágenes jpg o png');
             handleRemove(info.file)
         }
-        const isLt2M = info.file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-            message.error('Máximo 2MB!');
+        const isLt1M = info.file.size / 1024 / 1024 < 1;
+        if (!isLt1M) {
+            message.error('Máximo 1MB!');
             handleRemove(info.file)
         }
-        return isJpgOrPng && isLt2M;
+        return isJpgOrPng && isLt1M;
     };
 }
 
 const onFinish = async () => {
 
-    const error = await userStore.updateUser(userStore.userData.displayName)
-
-    if (fileList.value[0]) {
-        const error = await userStore.updateImg(fileList.value[0])
-        if (error) {
-            return message.error('Problemas al subir tu imagen')
-        }
-        message.success('Se actualizó tu foto de perfil')
-    }
+    const error = await userStore.updateUser(userStore.userData.displayName, fileList.value[0])
 
     if (!error) {
         return message.success('Se actualizó tu nombre de usuario')
